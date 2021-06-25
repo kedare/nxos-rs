@@ -7,4 +7,6 @@ It will reimplemented the featuers (probably not all) from the Cisco embedded py
 
 # How to use rust on NX-OS
 
-As NX-OS is building using older versions of Linux and libc, the rust application you are building need to be compiled with the following target : `i686-unknown-linux-musl`
+As NX-OS is building using older versions of Linux and libc,
+the rust application you are building need to be compiled with the following target : `x86_64-unknown-linux-musl`.
+Make sure you other libraries have no specific dynamic dependencies (openssl, etc...)
