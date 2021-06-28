@@ -1,5 +1,5 @@
 use super::command::run;
-use anyhow::{Error, anyhow};
+use anyhow::{anyhow, Error};
 use chrono::prelude::*;
 
 const CONFIG_TIME_FORMAT: &str = "%a %b %e %T %Y";
@@ -7,16 +7,17 @@ const CONFIG_TIME_FORMAT: &str = "%a %b %e %T %Y";
 /// Extract the date from the Time line of the configuration
 fn extract_date_from_time_line(line: String) -> Result<DateTime<Utc>, Error> {
     let date_vector: Vec<&str> = line.split(": ").collect();
-    let date_string = match  date_vector.get(1) {
+    let date_string = match date_vector.get(1) {
         Some(x) => Ok(x.trim()),
-        None => Err(anyhow!("Could not extract date from line"))
+        None => Err(anyhow!("Could not extract date from line")),
     }?;
     let date = Utc.datetime_from_str(date_string, CONFIG_TIME_FORMAT)?;
     Ok(date)
 }
 /// Return the date of the last change on the startup configuration
 pub fn get_startup_configuration_date() -> Result<DateTime<Utc>, Error> {
-    let raw_date_string= run("show startup-config | begin '!Time:' | head -n 1".to_string())?.stdout;
+    let raw_date_string =
+        run("show startup-config | begin '!Time:' | head -n 1".to_string())?.stdout;
     let date = extract_date_from_time_line(raw_date_string)?;
     Ok(date)
 }
@@ -36,7 +37,7 @@ pub fn save_configuration() -> Result<(), Error> {
 #[cfg(test)]
 mod tests {
     use crate::configuration::extract_date_from_time_line;
-    use chrono::{Utc, TimeZone};
+    use chrono::{TimeZone, Utc};
 
     #[test]
     fn extract_good_date() {
@@ -47,15 +48,11 @@ mod tests {
 
     #[test]
     fn extract_bad_dates() {
-        let lines = vec![
-            "Mon Jun 28 13:22:05 2021",
-            "Sun Jan 99 12:34:78 2099"
-        ];
+        let lines = vec!["Mon Jun 28 13:22:05 2021", "Sun Jan 99 12:34:78 2099"];
 
         for line in lines {
             let date = extract_date_from_time_line(line.to_string());
             assert_eq!(date.is_err(), true)
         }
-
     }
 }
