@@ -1,0 +1,22 @@
+{
+  "neigh_hdr": "neigh_hdr",
+  "TABLE_nbor": {
+    "ROW_nbor": [
+      {
+        "chassis_type": "Locally Assigned",
+        "chassis_id": "test-hostname",
+        "l_port_id": "mgmt0",
+        "hold_time": "120",
+        "system_capability": "BR",
+        "enabled_capability": "BR",
+        "port_type": "Interface Name",
+        "port_id": "Gi1/21",
+        "mgmt_addr_type": "IPV4",
+        "mgmt_addr": "1.2.3.4",
+        "mgmt_addr_ipv6_type": "Address not advertised",
+        "mgmt_addr_ipv6": "not advertised"
+      }
+    ]
+  },
+  "neigh_count": "1"
+}
