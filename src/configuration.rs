@@ -1,8 +1,8 @@
 use super::command::run;
 use anyhow::{anyhow, Error};
 use chrono::prelude::*;
-use std::path::Path;
 use std::fs;
+use std::path::Path;
 
 const CONFIG_RUNNING_CONFIG_PATH: &str = "/mnt/cfg/0/ascii/ascii_cfg.tar.gz";
 
@@ -13,10 +13,16 @@ pub fn get_startup_configuration_date() -> Result<DateTime<Utc>, Error> {
     match config_file {
         Ok(x) => {
             let date = DateTime::from(x.modified()?);
-            return Ok(date)
-        },
-        Err(e) => return Err(anyhow!("Failed to get the startup configuration metadata: {}", e))
-    } }
+            return Ok(date);
+        }
+        Err(e) => {
+            return Err(anyhow!(
+                "Failed to get the startup configuration metadata: {}",
+                e
+            ))
+        }
+    }
+}
 
 /// Return true if the device has a startup configuration, or false
 pub fn has_startup_configuration() -> bool {
@@ -28,4 +34,3 @@ pub fn save_configuration() -> Result<(), Error> {
     let result = run("copy running-config startup-config".to_string())?;
     Ok(())
 }
-

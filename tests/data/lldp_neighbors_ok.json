@@ -1,22 +1,25 @@
 {
   "neigh_hdr": "neigh_hdr",
-  "TABLE_nbor": {
-    "ROW_nbor": [
+  "TABLE_nbor_detail": {
+    "ROW_nbor_detail": [
       {
-        "chassis_type": "Locally Assigned",
-        "chassis_id": "test-hostname",
-        "l_port_id": "mgmt0",
-        "hold_time": "120",
-        "system_capability": "BR",
-        "enabled_capability": "BR",
+        "chassis_type": "Mac Address",
+        "chassis_id": "1234.1234.1234.1234",
         "port_type": "Interface Name",
         "port_id": "Gi1/21",
+        "l_port_id": "mgmt0",
+        "port_desc": "GigabitEthernet1/21",
+        "sys_name": "test-hostname",
+        "ttl": "120",
+        "system_capability": "BR",
+        "enabled_capability": "BR",
         "mgmt_addr_type": "IPV4",
         "mgmt_addr": "1.2.3.4",
         "mgmt_addr_ipv6_type": "Address not advertised",
-        "mgmt_addr_ipv6": "not advertised"
+        "mgmt_addr_ipv6": "not advertised",
+        "vlan_id": "39"
       }
-    ]
-  },
-  "neigh_count": "1"
+    ],
+    "neigh_count": "1"
+  }
 }
