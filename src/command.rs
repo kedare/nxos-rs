@@ -1,4 +1,4 @@
-use anyhow::Error;
+use anyhow::{Error, anyhow};
 use serde_json::Value;
 use std::process::{Command, ExitStatus};
 
@@ -38,4 +38,13 @@ pub fn run(command: String) -> Result<CommandResult, Error> {
         stderr: String::from_utf8(output.stderr).unwrap(),
         status: output.status,
     })
+}
+
+/// Run the specified command as JSON ans return the corresponding CommandResult or an Error
+pub fn run_json(command: String) -> Result<CommandResult, Error> {
+    let result = run(format!("{} | json-pretty", command))?;
+    if result.failed() {
+        return Err(anyhow!("Failed to execute the command: {}", result.stdout))
+    }
+    Ok(result)
 }

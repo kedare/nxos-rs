@@ -1,10 +1,10 @@
-use super::command::run;
 use anyhow::Error;
 use serde;
 use serde::{Deserialize, Serialize};
 use serde_aux::prelude::*;
 use serde_json;
 use std::net::{Ipv4Addr, Ipv6Addr};
+use crate::command::run_json;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LLDPNeighbor {
@@ -58,7 +58,7 @@ pub struct CDPNeighbor {
         rename = "nativevlan",
         deserialize_with = "deserialize_number_from_string"
     )]
-    native_vlan: u8,
+    native_vlan: u32,
     #[serde(rename = "duplexmode")]
     duplex_mode: String,
     #[serde(deserialize_with = "deserialize_number_from_string")]
@@ -70,7 +70,7 @@ pub struct CDPNeighbor {
     #[serde(rename = "intf_id")]
     remote_interface: String,
     #[serde(deserialize_with = "deserialize_number_from_string")]
-    ttl: u8,
+    ttl: u32,
     capabilities: Vec<String>,
 }
 
@@ -100,7 +100,7 @@ pub struct ShowCDPNeighborsResult {
 
 /// Return the complete list of LLDP neighbors
 pub fn get_lldp_neighbors() -> Result<Vec<LLDPNeighbor>, Error> {
-    let neighbors_json = run("show lldp neighbors details".to_string())?;
+    let neighbors_json = run_json("show lldp neighbors detail".to_string())?;
     let neighbors: ShowLLDPNeighborsResult = serde_json::from_str(neighbors_json.stdout.as_str())?;
     Ok(neighbors.neighbors_table.neighbors)
 }
